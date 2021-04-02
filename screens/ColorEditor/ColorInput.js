@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { updateColors } from '../../redux/actions/colors';
+import * as ColorsActions from '../../redux/actions/colors';
 import InputAccordion from './InputAccordion';
 
 class ColorInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.initState();
+    this.state = {
+      activeSections: [],
+      config: this.initState(),
+    };
     this.onChange = this.onChange.bind(this);
     this.changeText = this.changeText.bind(this);
     this.updateColors = this.updateColors.bind(this);
@@ -34,17 +37,14 @@ class ColorInput extends React.Component {
   initState() {
     const { numberOfTexts: texts } = this.props;
     const { numberOfBoxes: boxes } = this.props;
-    const state = {
-      activeSections: [],
-      config: {},
-    };
+    let config = {};
     for (let i = 1; i <= boxes; i += 1) {
       const elem = `box${i}Color`;
       const value = {
         color: '',
         title: `Box ${i} Color`,
       };
-      state.config = { ...state.config, [elem]: value };
+      config = { ...config, [elem]: value };
     }
     for (let i = 1; i <= texts; i += 1) {
       const elem = `text${i}Color`;
@@ -52,9 +52,9 @@ class ColorInput extends React.Component {
         color: '',
         title: `Text ${i} Color`,
       };
-      state.config = { ...state.config, [elem]: value };
+      config = { ...config, [elem]: value };
     }
-    return state;
+    return config;
   }
 
   updateColors() {
@@ -63,6 +63,8 @@ class ColorInput extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.state;
+    if (!isLoading) this.state.config = this.initState();
     const { config, activeSections } = this.state;
     const data = Object.keys(config);
     return (
@@ -81,10 +83,10 @@ class ColorInput extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state.configReducer;
+const mapStateToProps = (state) => state.configFieldsReducer;
 
 const mapDispatchToProps = (dispatch) => ({
-  changeBoxColor: (state) => dispatch(updateColors(state)),
+  changeBoxColor: (state) => dispatch(ColorsActions.updateColors(state)),
 });
 
 ColorInput.propTypes = {

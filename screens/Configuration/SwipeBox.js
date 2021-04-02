@@ -63,7 +63,10 @@ class SwipeBox extends React.Component {
 
 SwipeBox.propTypes = {
   dragX: PropTypes.object.isRequired,
-  lineIndex: PropTypes.string.isRequired,
+  lineIndex: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   deleteLine: PropTypes.func.isRequired,
 };
 

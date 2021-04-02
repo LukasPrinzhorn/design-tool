@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import HomeScreen from './screens/Home';
-import { DesignToolHomeScreen } from './screens/DesignToolHome';
+import DesignToolHomeScreen from './screens/DesignToolHome';
 import Configuration from './screens/Configuration';
 import AccordionScreen from './screens/AccordionScreen';
 import SwipeTool from './screens/SwipeTool';

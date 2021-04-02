@@ -1,4 +1,4 @@
-import { ColorEditor } from '../screens/ColorEditor';
+import ColorEditor from '../screens/ColorEditor';
 import { FontEditor } from '../screens/FontEditor';
 import { IconsViewer } from '../screens/IconsViewer';
 import { ViewSizeDisplay } from '../screens/ViewSizeDisplayer';

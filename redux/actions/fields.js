@@ -1,23 +1,57 @@
 import _ from 'lodash';
+import { createFieldsTable, insertInitialFields } from '../../utils/fieldsDBUtils';
+import SQLBuilder from '../../utils/SQLBuilder';
+import { TABLE_FIELDS } from '../../configs/tableConfigs';
 
+export const FIELDS_LOAD = 'fields:load';
+export const FIELDS_LOAD_FINISHED = 'fields:load:finished:success';
 export const BOXES_UPDATE = 'boxes:number:update';
 export const TEXTS_UPDATE = 'texts:number:update';
 export const BOTH_UPDATE = 'boxes:texts:number:update';
 export const NO_UPDATE = 'null:update';
 
-export const updateNumberOfInputFields = (pay) => {
+export const loadFields = () => (dispatch) => {
+  createFieldsTable();
+  dispatch({
+    type: FIELDS_LOAD,
+    payload: {},
+  });
+  SQLBuilder.selectFromTable(TABLE_FIELDS.name)
+    .then((response) => {
+      if (response.rows._array.length === 0) insertInitialFields();
+      dispatch({
+        type: FIELDS_LOAD_FINISHED,
+        payload: response.rows._array[0],
+      });
+    })
+    .catch(() => {
+      console.log('Error loading fields');
+    });
+};
+
+export const updateNumberOfInputFields = (payload) => {
+  SQLBuilder.updateTable(
+    TABLE_FIELDS.name,
+    { key: 'id', value: 0 },
+    { key: 'numberOfBoxes', value: payload.numberOfBoxes },
+  );
+  SQLBuilder.updateTable(
+    TABLE_FIELDS.name,
+    { key: 'id', value: 0 },
+    { key: 'numberOfTexts', value: payload.numberOfTexts },
+  );
   const obj = {
     payload:
     {
-      numberOfBoxes: pay.numberOfBoxes,
-      numberOfTexts: pay.numberOfTexts,
+      numberOfBoxes: payload.numberOfBoxes,
+      numberOfTexts: payload.numberOfTexts,
     },
   };
-  if (!_.isEmpty(pay.numberOfBoxes) && !_.isEmpty(pay.numberOfTexts)) {
+  if (!_.isEmpty(payload.numberOfBoxes) && !_.isEmpty(payload.numberOfTexts)) {
     obj.type = BOTH_UPDATE;
-  } else if (!_.isEmpty(pay.numberOfBoxes)) {
+  } else if (!_.isEmpty(payload.numberOfBoxes)) {
     obj.type = BOXES_UPDATE;
-  } else if (!_.isEmpty(pay.numberOfTexts)) {
+  } else if (!_.isEmpty(payload.numberOfTexts)) {
     obj.type = TEXTS_UPDATE;
   } else {
     obj.type = NO_UPDATE;

@@ -29,7 +29,6 @@ const colorEditorReducer = (
       currentState.forEach((color, index) => {
         result[index] = (payload[color.fieldName].color === '') ? currentState[index] : { ...currentState[index], color: payload[color.fieldName].color };
       });
-      console.log('result after update', result);
       break;
     default:
       result = state;

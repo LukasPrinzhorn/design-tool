@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View, Text, StyleSheet,
 } from 'react-native';
+import _ from 'lodash';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import * as ColorActions from '../../redux/actions/colors';
@@ -85,11 +86,13 @@ class ColorOutput extends React.Component {
     const { colorEditorReducer } = this.props;
     const textColors = colorEditorReducer.filter((color) => color.fieldName === textColorKey);
     const boxColors = colorEditorReducer.filter((color) => color.fieldName === boxColorKey);
+    const color = (!_.isEmpty(textColors)) ? textColors[0].color : 'black';
+    const backgroundColor = (!_.isEmpty(boxColors)) ? boxColors[0].color : 'white';
     const dynamicText = {
-      color: `${textColors[0].color}`,
+      color,
     };
     const dynamicView = {
-      backgroundColor: `${boxColors[0].color}`,
+      backgroundColor,
     };
     return (
       <View key={key} style={[styles.textWrapper, customStyles, dynamicView]}>

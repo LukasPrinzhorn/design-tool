@@ -65,8 +65,8 @@ class Line extends React.Component {
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
-                  'Alert Title',
-                  'My Alert Message',
+                  'Delete Menu',
+                  'Delete Line?',
                   [
                     {
                       text: 'Ask me later',
@@ -104,11 +104,25 @@ class Line extends React.Component {
 }
 
 Line.propTypes = {
-  deleteLine: PropTypes.func.isRequired,
-  loadLines: PropTypes.func.isRequired,
-  itemKey: PropTypes.string.isRequired,
-  element: PropTypes.object.isRequired,
-  lineIndex: PropTypes.number.isRequired,
+  deleteLine: PropTypes.func,
+  loadLines: PropTypes.func,
+  itemKey: PropTypes.string,
+  element: PropTypes.object,
+  lineIndex: PropTypes.number,
+};
+
+Line.defaultProps = {
+  deleteLine: () => {},
+  loadLines: () => {},
+  itemKey: '0',
+  element: {
+    id: 0,
+    boxcolor: [],
+    textColor: [],
+    widths: [],
+    texts: [],
+  },
+  lineIndex: 0,
 };
 
 export default Line;

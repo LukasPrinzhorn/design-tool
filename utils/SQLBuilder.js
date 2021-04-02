@@ -66,7 +66,6 @@ class SQLBuilder {
     const value = (typeof (attribute.value) === 'string') ? `'${attribute.value}'` : attribute.value;
     // let key = primaryKey.value.split(' ')[0];
     const keyValue = (typeof (primaryKey.value) === 'string') ? `'${primaryKey.value}'` : primaryKey.value;
-    console.log('debug::update', `UPDATE ${tableName} SET ${attribute.key} = ${value} WHERE ${primaryKey.key} = ${keyValue}`);
     return db.transaction(
       (tx) => {
         tx.executeSql(
@@ -125,7 +124,7 @@ class SQLBuilder {
         reject(error);
       },
       () => {
-        const log = (result.rowsAffected > 0) ? `successful delete of ${result.rowsAffected} rows` : 'No rows deleted';
+        const log = (result.rowsAffected > 0) ? `successful delete of ${result.rowsAffected} items` : 'No rows deleted';
         console.log(log);
         resolve(result);
       },

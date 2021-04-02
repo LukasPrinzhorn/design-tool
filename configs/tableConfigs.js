@@ -72,3 +72,15 @@ export const TABLE_LINES = {
     { name: 'textsId', tableReference: TABLE_TEXTS.name, attributeReference: TABLE_TEXTS.primaryKey.name },
   ],
 };
+
+export const TABLE_FIELDS = {
+  name: 'table_fields',
+  primaryKey: {
+    name: 'id',
+    type: 'integer',
+  },
+  attributes: [
+    { name: 'numberOfBoxes', type: 'integer' },
+    { name: 'numberOfTexts', type: 'integer' },
+  ],
+};

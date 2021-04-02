@@ -6,7 +6,7 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { updateNumberOfInputFields } from '../../redux/actions/fields';
+import * as Actions from '../../redux/actions/fields';
 
 const styles = StyleSheet.create({
   flexBlock: {
@@ -50,7 +50,8 @@ class ConfigFields extends React.Component {
   }
 
   render() {
-    const { saveConfiguration } = this.props;
+    const { saveConfiguration, loadFields } = this.props;
+    loadFields();
     return (
       <View>
         <TextInput
@@ -77,13 +78,17 @@ class ConfigFields extends React.Component {
   }
 }
 
+// const mapStateToProps = (state) => state.configReducer;
+
 function mapDispatchToProps(dispatch) {
   return {
-    saveConfiguration: (state) => dispatch(updateNumberOfInputFields(state)),
+    loadFields: () => dispatch(Actions.loadFields()),
+    saveConfiguration: (state) => dispatch(Actions.updateNumberOfInputFields(state)),
   };
 }
 
 ConfigFields.propTypes = {
+  loadFields: PropTypes.func.isRequired,
   saveConfiguration: PropTypes.func.isRequired,
 };
 

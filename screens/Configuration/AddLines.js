@@ -235,7 +235,6 @@ class AddLines extends React.Component {
 
   renderLine() {
     const { newLine } = this.state;
-    console.log('state', this.state);
     return (
       <View style={styles.flexBlock}>
         {newLine.widths.map((width, index) => (
@@ -316,7 +315,7 @@ class AddLines extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => state.configReducer;
+const mapStateToProps = (state) => state.configFieldsReducer;
 
 function mapDispatchToProps(dispatch) {
   return {
