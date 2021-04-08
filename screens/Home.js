@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { FlatList } from 'react-native-gesture-handler';
-import { homeConfig } from '../configs';
+import { homeConfig } from '../configs/homeConfigs';
 
 const styles = StyleSheet.create({
   container: {
