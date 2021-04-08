@@ -30,16 +30,21 @@ export const loadFields = () => (dispatch) => {
 };
 
 export const updateNumberOfInputFields = (payload) => {
-  SQLBuilder.updateTable(
-    TABLE_FIELDS.name,
-    { key: 'id', value: 0 },
-    { key: 'numberOfBoxes', value: payload.numberOfBoxes },
-  );
-  SQLBuilder.updateTable(
-    TABLE_FIELDS.name,
-    { key: 'id', value: 0 },
-    { key: 'numberOfTexts', value: payload.numberOfTexts },
-  );
+  const { numberOfBoxes, numberOfTexts } = payload;
+  if (!_.isEmpty(numberOfBoxes)) {
+    SQLBuilder.updateTable(
+      TABLE_FIELDS.name,
+      { key: 'id', value: 0 },
+      { key: 'numberOfBoxes', value: numberOfBoxes },
+    );
+  }
+  if (!_.isEmpty(numberOfTexts)) {
+    SQLBuilder.updateTable(
+      TABLE_FIELDS.name,
+      { key: 'id', value: 0 },
+      { key: 'numberOfTexts', value: numberOfTexts },
+    );
+  }
   const obj = {
     payload:
     {
