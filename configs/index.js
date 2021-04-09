@@ -1,11 +1,3 @@
-import HomeScreen from '../screens/Home';
-
-export const HOME = {
-  name: 'screen:home',
-  title: 'Home',
-  component: HomeScreen,
-};
-
 export const initialColorsConfig = [
   { id: 1, fieldName: 'text1Color', color: '#006000' },
   { id: 2, fieldName: 'box1Color', color: '#bbffff' },

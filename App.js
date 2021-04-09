@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { HOME } from './configs';
+import { HOME } from './configs/appConfigs';
 import { homeConfig } from './configs/homeConfigs';
 
 export default function App() {
@@ -20,6 +20,7 @@ export default function App() {
           />
           {homeConfig.map((element) => (
             <AuthStack.Screen
+              key={element.title}
               name={element.name}
               title={element.title}
               component={element.component}
