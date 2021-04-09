@@ -79,6 +79,7 @@ class InputAccordion extends React.Component {
             onChangeText={(text) => changeText(item, text)}
             style={styles.inputField}
             placeholder="Eg. #ffff00"
+            autoCapitalize="none"
           />
         </View>
       );
