@@ -1,12 +1,32 @@
+import _ from 'lodash';
 import * as Actions from '../actions/colors';
 import { initialColorsConfig } from '../../configs';
+
+const convertObjectToArray = (obj) => {
+  const keys = Object.keys(obj);
+  const values = Object.values(obj);
+  const arr = keys.map((value, index) => ({
+    fieldName: keys[index],
+    ...values[index],
+  }));
+  return arr;
+};
+
+const convertArrayToObject = (arr) => {
+  const obj = {};
+  arr.forEach((element) => {
+    obj[element.fieldName] = element;
+  });
+  return obj;
+};
 
 const colorEditorReducer = (
   state = initialColorsConfig,
   action,
 ) => {
   let result;
-  let currentState;
+  let payloadArray;
+  let stateObject;
   let { type } = action;
   const { payload } = action;
   type = (type.startsWith('@@redux')) ? Actions.COLORS_INIT : type;
@@ -24,15 +44,16 @@ const colorEditorReducer = (
       result = state;
       break;
     case Actions.COLORS_UPDATE:
-      currentState = state;
-      result = [...currentState];
-      currentState.forEach((color, index) => {
-        result[index] = (payload[color.fieldName].color === '') ? currentState[index] : { ...currentState[index], color: payload[color.fieldName].color };
-      });
+      payloadArray = convertObjectToArray(payload);
+      stateObject = convertArrayToObject(Object.values(state));
+      result = payloadArray.map((colorObject, index) => ((_.isUndefined(payloadArray[index]) || payloadArray[index].color === '')
+        ? stateObject[colorObject.fieldName]
+        : { ...stateObject[colorObject.fieldName], color: payloadArray[index].color }));
       break;
     default:
       result = state;
   }
+  console.log('debug::cER:result', result);
   return result;
 };
 

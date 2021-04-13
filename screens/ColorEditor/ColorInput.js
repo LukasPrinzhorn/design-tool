@@ -28,7 +28,7 @@ class ColorInput extends React.Component {
       ...prevState,
       config: {
         ...prevState.config,
-        [key]: { ...prevState[key], color: text },
+        [key]: { ...prevState.config[key], color: text },
       },
     }
     ));
@@ -63,8 +63,6 @@ class ColorInput extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
-    if (!isLoading) this.state.config = this.initState();
     const { config, activeSections } = this.state;
     const data = Object.keys(config);
     return (
