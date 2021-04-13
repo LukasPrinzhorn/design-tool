@@ -53,7 +53,6 @@ const colorEditorReducer = (
     default:
       result = state;
   }
-  console.log('debug::cER:result', result);
   return result;
 };
 
