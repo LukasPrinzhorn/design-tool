@@ -15,13 +15,13 @@ const CONFIGURATION = {
 };
 const ACCORDION = {
   name: 'screen:accordion',
-  title: 'Accordion',
+  title: 'Accordion (Test)',
   component: AccordionScreen,
 };
 const SWIPE_TOOL = {
   name: 'screen:swipeTool',
-  title: 'Swipe Tool',
+  title: 'Swipe Tool (Test)',
   component: SwipeTool,
 };
 
-export const homeConfig = [DESIGN_TOOL_HOME, CONFIGURATION, ACCORDION, SWIPE_TOOL];
+export const homeConfig = [DESIGN_TOOL_HOME, CONFIGURATION];
