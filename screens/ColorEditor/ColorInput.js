@@ -63,6 +63,7 @@ class ColorInput extends React.Component {
   }
 
   render() {
+    this.state.config = this.initState();
     const { config, activeSections } = this.state;
     const data = Object.keys(config);
     return (
