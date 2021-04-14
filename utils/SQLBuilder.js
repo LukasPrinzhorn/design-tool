@@ -112,7 +112,7 @@ class SQLBuilder {
     return new Promise((resolve, reject) => db.transaction(
       (tx) => {
         tx.executeSql(
-          `DELETE FROM ${tableName} WHERE ${primaryKey.key} = ${primaryKey.value}`,
+          `DELETE FROM ${tableName} WHERE ${primaryKey.key} = '${primaryKey.value}'`,
           [],
           (_, results) => {
             result = results;

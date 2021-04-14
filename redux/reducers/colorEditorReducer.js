@@ -1,16 +1,7 @@
 import _ from 'lodash';
 import * as Actions from '../actions/colors';
 import { initialColorsConfig } from '../../configs';
-
-const convertObjectToArray = (obj) => {
-  const keys = Object.keys(obj);
-  const values = Object.values(obj);
-  const arr = keys.map((value, index) => ({
-    fieldName: keys[index],
-    ...values[index],
-  }));
-  return arr;
-};
+import { convertColorObjectToArray } from '../../utils/helper';
 
 const convertArrayToObject = (arr) => {
   const obj = {};
@@ -44,11 +35,18 @@ const colorEditorReducer = (
       result = state;
       break;
     case Actions.COLORS_UPDATE:
-      payloadArray = convertObjectToArray(payload);
+      payloadArray = convertColorObjectToArray(payload);
       stateObject = convertArrayToObject(Object.values(state));
-      result = payloadArray.map((colorObject, index) => ((_.isUndefined(payloadArray[index]) || payloadArray[index].color === '')
-        ? stateObject[colorObject.fieldName]
-        : { ...stateObject[colorObject.fieldName], color: payloadArray[index].color }));
+      result = payloadArray.map((colorObject, index) => {
+        // eslint-disable-next-line no-nested-ternary
+        if (_.isUndefined(payloadArray[index]) || payloadArray[index].color === '') {
+          // eslint-disable-next-line max-len
+          return (!_.isUndefined(stateObject[colorObject.fieldName])) ? stateObject[colorObject.fieldName] : colorObject;
+        }
+        return (!_.isUndefined(stateObject[colorObject.fieldName]))
+          ? { ...stateObject[colorObject.fieldName], color: payloadArray[index].color }
+          : colorObject;
+      });
       break;
     default:
       result = state;

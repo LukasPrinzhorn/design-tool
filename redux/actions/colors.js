@@ -1,5 +1,5 @@
 import SQLBuilder from '../../utils/SQLBuilder';
-import { fillColorDB, updateColorDB } from '../../utils/colorDBUtils';
+import { fillColorDB, updateAllColorsDB } from '../../utils/colorDBUtils';
 import { TABLE_COLORS } from '../../configs/tableConfigs';
 
 export const COLORS_INIT = 'colors:initialize';
@@ -36,9 +36,10 @@ export const updateColors = (payload) => {
     type: COLORS_UPDATE,
     payload: {},
   };
+  updateAllColorsDB(config);
   Object.keys(config).forEach((key) => {
     obj.payload = { ...obj.payload, [key]: config[key] };
-    if (config[key].color !== '') updateColorDB(key, config[key].color);
+    // if (config[key].color !== '') updateColorDB(key, config[key].color);
   });
   return obj;
 };

@@ -5,6 +5,7 @@ import {
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { designToolConfig } from '../configs/designConfigs';
+import SQLBuilder from '../utils/SQLBuilder';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +19,14 @@ const Tabs = createBottomTabNavigator();
 const keyCreator = (item) => (`${item.toString}`);
 
 function DesignToolHomeScreen() {
+  /*
+  SQLBuilder.dropTable('table_text_colors');
+  SQLBuilder.dropTable('table_box_colors');
+  SQLBuilder.dropTable('table_widths');
+  SQLBuilder.dropTable('table_texts');
+  SQLBuilder.dropTable('table_lines');
+  SQLBuilder.dropTable('table_fields');
+  */
   return (
     <View style={styles.container}>
       <Tabs.Navigator

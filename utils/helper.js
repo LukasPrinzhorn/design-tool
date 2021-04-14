@@ -41,3 +41,13 @@ export const destructureResponse = (responses) => {
   result.push(currentObject);
   return result;
 };
+
+export const convertColorObjectToArray = (obj) => {
+  const keys = Object.keys(obj);
+  const values = Object.values(obj);
+  const arr = keys.map((key, index) => ({
+    fieldName: key,
+    ...values[index],
+  }));
+  return arr;
+};
