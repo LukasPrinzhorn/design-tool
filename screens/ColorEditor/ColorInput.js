@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
@@ -25,7 +26,6 @@ class ColorInput extends React.Component {
 
   changeText = (key, text) => {
     this.setState((prevState) => ({
-      ...prevState,
       config: {
         ...prevState.config,
         [key]: { ...prevState.config[key], color: text },
@@ -63,8 +63,9 @@ class ColorInput extends React.Component {
   }
 
   render() {
-    this.state.config = this.initState();
-    const { config, activeSections } = this.state;
+    const { activeSections } = this.state;
+    if (_.isEmpty(activeSections)) this.state.config = this.initState();
+    const { config } = this.state;
     const data = Object.keys(config);
     return (
       <View>
