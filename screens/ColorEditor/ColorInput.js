@@ -67,6 +67,7 @@ class ColorInput extends React.Component {
     if (_.isEmpty(activeSections)) this.state.config = this.initState();
     const { config } = this.state;
     const data = Object.keys(config);
+    data.sort((a, b) => a.localeCompare(b));
     return (
       <View>
         <View>
