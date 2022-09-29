@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   View, Text, StyleSheet,
 } from 'react-native';
 import _ from 'lodash';
 import { ScrollView } from 'react-native-gesture-handler';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import * as ColorActions from '../../redux/actions/colors';
 import * as LinesActions from '../../redux/actions/lines';
 import LoadingScreen from '../LoadingScreen';
@@ -48,8 +48,75 @@ const styles = StyleSheet.create({
 });
 
 const texts = ['The quick brown fox jumps over the lazy dog.', 'Jved fox nymph grabs quick waltz.'];
+function ColorOutput() {
+  const colorEditorReducer = useSelector((state) => state.colorEditorReducer);
+  const linesConfig = useSelector((state) => state.configLinesReducer);
+  const dispatch = useDispatch();
 
-class ColorOutput extends React.Component {
+  useEffect(() => {
+    dispatch(ColorActions.loadColors());
+    dispatch(LinesActions.loadLines());
+  }, []);
+
+  const keyCreator = (item, index) => (`${item}${index}`);
+
+  const printText = (key, textIndex, customStyles, boxColorKey, textColorKey) => {
+    const textColors = colorEditorReducer.filter((color) => color.fieldName === textColorKey);
+    const boxColors = colorEditorReducer.filter((color) => color.fieldName === boxColorKey);
+    const color = (!_.isEmpty(textColors)) ? textColors[0].color : 'black';
+    const backgroundColor = (!_.isEmpty(boxColors)) ? boxColors[0].color : 'white';
+    const dynamicText = {
+      color,
+    };
+    const dynamicView = {
+      backgroundColor,
+    };
+    return (
+      <View key={key} style={[styles.textWrapper, customStyles, dynamicView]}>
+        <Text style={[styles.textContainer, dynamicText]}>{texts[textIndex]}</Text>
+      </View>
+    );
+  };
+
+  const renderDynamic = () => (
+    <View>
+      {linesConfig.config.map(
+        (element, index) => (
+          <View key={keyCreator(element, index)} style={styles.flexBlock}>
+            {element.widths.map((width, widthIndex) => (
+              printText(
+                keyCreator(width, widthIndex),
+                element.texts[widthIndex],
+                { width: element.widths[widthIndex] },
+                element.boxColor[widthIndex],
+                element.textColor[widthIndex],
+              )
+            ))}
+          </View>
+        ),
+      )}
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        {linesConfig.isLoading
+          ? <LoadingScreen title="Color Output" />
+          : (
+            <View style={styles.wrapper}>
+              {renderDynamic()}
+            </View>
+          )}
+      </ScrollView>
+    </View>
+  );
+}
+
+export default ColorOutput;
+
+/*
+class ColorOutput2 extends React.Component {
   constructor(props) {
     super(props);
     const { loadLines, loadData } = this.props;
@@ -134,3 +201,4 @@ ColorOutput.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ColorOutput);
+*/
